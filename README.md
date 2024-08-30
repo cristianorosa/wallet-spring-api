@@ -1,4 +1,4 @@
 # wallet-spring-api
-API para controle de carteiras financeiras
+API para controle de carteiras financeiras.
 
-API for controlling financial portfolios
+API for controlling financial portfolios.
