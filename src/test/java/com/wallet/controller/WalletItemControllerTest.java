@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,7 +61,7 @@ class WalletItemControllerTest {
 
 	private static final Long ID = 1l;
 	private static final Date DATE = new Date();
-	private static final LocalDate TODAY = LocalDate.now();
+	private static final LocalDate TODAY = LocalDate.now(ZoneOffset.UTC);
 	private static final TypeEnum TYPE = TypeEnum.EN;
 	private static final String DESCRIPTION = "Entrada de Saldo";
 	private static final BigDecimal VALUE = BigDecimal.valueOf(65);

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -37,12 +36,15 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("wallet-item")
 public class WalletItemController {
-
-	@Autowired
+	
 	WalletItemService service;
 	
-	@Autowired
 	UserWalletService uwService;
+
+	public WalletItemController(WalletItemService service, UserWalletService uwService) {
+		this.service = service;
+		this.uwService = uwService;
+	}
 
 	@PostMapping
 	public ResponseEntity<Response<WalletItemDTO>> create(@Valid @RequestBody WalletItemDTO dto, BindingResult result) {
@@ -61,10 +63,10 @@ public class WalletItemController {
 	}
 	
 	@GetMapping(value = "/{wallet}")
-	public ResponseEntity<Response<Page<WalletItemDTO>>> findBetweenDates(@PathVariable("wallet") Long wallet,
-			@RequestParam("startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date startDate,
-			@RequestParam("endDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date endDate,
-			@RequestParam(name = "page", defaultValue = "0") int page) {
+	public ResponseEntity<Response<Page<WalletItemDTO>>> findBetweenDates(@PathVariable Long wallet,
+			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date startDate,
+			@RequestParam @DateTimeFormat(pattern = "dd-MM-yyyy") Date endDate,
+			@RequestParam(defaultValue = "0") int page) {
 		
 		Response<Page<WalletItemDTO>> response = new Response<>();
 		
@@ -82,8 +84,8 @@ public class WalletItemController {
 	}
 	
 	@GetMapping(value = "/type/{wallet}")
-	public ResponseEntity<Response<List<WalletItemDTO>>> findByWalletIdAndType(@PathVariable("wallet") Long wallet,
-			@RequestParam("type") String type) {
+	public ResponseEntity<Response<List<WalletItemDTO>>> findByWalletIdAndType(@PathVariable Long wallet,
+			@RequestParam String type) {
 		
 		Response<List<WalletItemDTO>> response = new Response<>();
 		List<WalletItem> items = service.findByWalletAndType(wallet, TypeEnum.getEnum(type));
@@ -96,7 +98,7 @@ public class WalletItemController {
 	}
 	
 	@GetMapping(value = "/total/{wallet}")
-	public ResponseEntity<Response<BigDecimal>> sumByWalletId(@PathVariable("wallet") Long wallet) {
+	public ResponseEntity<Response<BigDecimal>> sumByWalletId(@PathVariable Long wallet) {
 		
 		Response<BigDecimal> response = new Response<>();
 		BigDecimal total = service.sumByWalletID(wallet);
@@ -129,7 +131,7 @@ public class WalletItemController {
 	}
 	
 	@DeleteMapping(value = "/{wallet}")
-	public ResponseEntity<Response<String>> delete(@PathVariable("wallet") Long wallet) {
+	public ResponseEntity<Response<String>> delete(@PathVariable Long wallet) {
 		Response<String> response = new Response<>();
 		
 		Optional<WalletItem> walletItem = service.findByID(wallet);

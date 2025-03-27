@@ -22,7 +22,7 @@ public class SecurityConfiguration {
 
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, FilterToken filter) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, FilterToken filter) throws Exception {
 		return http
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/login").permitAll()
@@ -35,18 +35,18 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 	@Bean
-	public AuthenticationEntryPoint authenticationEntryPoint() {
+	AuthenticationEntryPoint authenticationEntryPoint() {
 		return new CustomAuthenticationEntryPoint();
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();    
 	}
 }
