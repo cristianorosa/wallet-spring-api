@@ -41,9 +41,9 @@ public class Wallet implements Serializable {
 	}
 
 	public Wallet(@Valid WalletDTO dto) {
-		this.id = dto.getId();
-		this.name = dto.getName();
-		this.value = dto.getValue();
+		this.id = dto.id();
+		this.name = dto.name();
+		this.value = dto.value();
 	}
 
 	public Long getId() {

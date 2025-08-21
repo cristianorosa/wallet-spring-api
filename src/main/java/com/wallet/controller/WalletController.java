@@ -35,8 +35,12 @@ public class WalletController {
 		}
 			
 		Wallet wallet = service.save(new Wallet(dto));
-		response.setData(new WalletDTO(wallet));
+		response.setData(getWalletDTO(wallet));
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
+	private WalletDTO getWalletDTO(Wallet wallet) {
+		return new WalletDTO(wallet.getId(), wallet.getName(), wallet.getValue());
+		
+	}
 }
